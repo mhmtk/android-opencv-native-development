@@ -10,6 +10,18 @@ android {
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
+        externalNativeBuild {
+            cmake {
+                //DRS 20160825 - Commented 1, Added 1 - - Suggestion by Bruno Alexandre Krinski
+                //cppFlags "-frtti -fexceptions"
+                cppFlags "-std=c++11 -frtti -fexceptions"
+
+                //DRS 20160822h - Added 1.  Later replaced by 20160825
+                //abiFilters 'x86', 'x86_64', 'armeabi', 'armeabi-v7a', 'arm64-v8a'
+                //DRS 20160825 - Suggestion by Bruno Alexandre Krinski
+                abiFilters 'x86', 'x86_64', 'armeabi', 'armeabi-v7a', 'arm64-v8a', 'mips', 'mips64'
+            }
+        }
     }
     buildTypes {
         release {
@@ -17,10 +29,16 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    externalNativeBuild {
+        cmake {
+            path "CMakeLists.txt"
+        }
+    }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:25.1.0'
+    compile project(':openCVLibrary320')
 }
